@@ -1,0 +1,16 @@
+{
+  "name": "course-outcome-app",
+  "version": "1.0.0",
+  "description": "A simple Express.js app to manage course outcomes",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^6.0.0",
+    "body-parser": "^1.19.0"
+  },
+  "author": "Your Name",
+  "license": "ISC"
+}
