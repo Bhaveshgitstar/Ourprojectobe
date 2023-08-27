@@ -11,7 +11,63 @@
 </head>
 <body>
     <div class="container mt-5"></div>
-    <h1>Course Syllabus</h1>
+    <h2>Detailed Syllabus</h2>
+    <h2>Lecture Wise Breakup</h2>
+    <table class="table" id="course_table">
+        <thead>
+            <tr>
+                <th>Course Code.</th>
+                <th>Semester</th>
+
+            </tr>
+            <tr><th>Course Name</th></tr>
+            <tr>
+            <th>Credits</th>
+            <th>Contact Hours</th>
+        </tr>
+        </thead>
+        <tbody id="couse_table">
+            <!-- Data will be added here dynamically -->
+        </tbody>
+    </table>
+    <table class="table" id="faculty_table">
+        <thead>
+            <tr>
+                <th rowspan="2" class="top">Faculty (Names)</th> 
+                <th>Faculty Coordinator</th>
+            </tr>
+            <tr>
+                <th>Teacher(s) Alphabetically</th>
+            </tr>
+        </thead>
+        <tbody id="faculty_table">
+            <!-- Data will be added here dynamically -->
+        </tbody>
+    </table>
+
+    <table class="table" id="co_table">
+        <thead>
+            <tr>
+                <th colspan="2" class="top">Course Outcomes</th> 
+                <th>Cognitive Levels</th>
+            </tr>
+           <!--<tr><td>cc1</td>
+        <td>kjsdgkjsdbg
+
+        </td>
+    <td>
+        level 2
+    </td></tr> 
+
+            </td>-->
+        </thead>
+        <tbody>
+            <tbody id="co_table"></tbody>
+            <!-- Data will be added here dynamically -->
+        </tbody>
+    </table>
+    
+    </table>
     <table class="table" id="syllabus-table">
         <thead>
             <tr>
@@ -31,6 +87,8 @@
         <button class="btn btn-info save-button">Save</button>
     </div>
 </div>
+<script src="dataval.js"></script>
     <script src="script.js"></script>
+   
 </body>
 </html>
