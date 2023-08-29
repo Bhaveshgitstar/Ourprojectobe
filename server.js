@@ -67,14 +67,27 @@ const courseSchema = new mongoose.Schema(
     {
         coid: String,
         cotitle: String,
-        colevels: String,
+        colevels: String
+    },
+    { versionKey: false }
+);
+const cdSchema = new mongoose.Schema(
+    {
+        co_code: String,
+        sem: String,
+        co_name: String,
+        credits: Number,
+        contact_hours: String,
+        coordinators:String,
+        teachers:String
     },
     { versionKey: false }
 );
 
-
 const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', courseOutcomeModuleSchema, 'course_outcome');
 const course = courseOutcomeDb.model('CourseOutcomeModule', courseSchema, 'course');
+const cd = courseOutcomeDb.model('CourseOutcomeModule', cdSchema, 'coursedetail');
+
 
 app.use(express.static(path.join(__dirname, 'frontend')));
 
@@ -172,6 +185,17 @@ app.post('/teacher-login', async (req, res) => {
 });
 
 
+
+app.get('/api/cd', async (req, res) => {
+    try {
+        const modules = await cd.find();
+        res.json(modules);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'Error fetching data' });
+    }
+});
+
 app.get('/api/courses', async (req, res) => {
     try {
         const modules = await course.find();
@@ -218,7 +242,7 @@ app.post('/api/modules', async (req, res) => {
 
 
 
-app.put('/api/modules/:id', async (req, res) => {
+app.put('/api/module/:id', async (req, res) => {
     const moduleId = req.params.id;
     const updatedModule = req.body;
     
@@ -231,7 +255,7 @@ app.put('/api/modules/:id', async (req, res) => {
     }
 });
 
-app.put('/api/courses/:id', async (req, res) => {
+app.put('/api/course/:id', async (req, res) => {
     const moduleId = req.params.id;
     const updatedModule = req.body;
     
