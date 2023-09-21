@@ -11,6 +11,175 @@ html, body {
     padding: 1000px; /* Add some padding for better spacing */
 }
 
+@media print {
+    @page {
+        margin-left: 0.05cm; /* Adjust the left margin as needed */
+        margin-right: 0.05cm; /* Adjust the right margin as needed */
+        margin-top: -75px;
+        margin-bottom: 0;
+    }
+    /* Set the border color for all table elements to black */
+    table,
+    .table,
+    .custom-table {
+        border-color: #000;
+    }
+    /* Reduce the padding for input fields in the cd_table */
+    
+    /* Style table cells for printing */
+    .table,
+    .custom-table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 5px auto; /* Center the table horizontally and add margin from the sides */
+        margin-top: 20px; /* Add top margin */
+    }
+    .table tr th{
+        border: 2px solid #000; /* Darken the border color for table cells */
+        padding: 1px;
+        text-align: left;
+        font-weight: normal; /* Remove bold text for table cells */
+
+    }
+    .table tr td div {
+        padding: 0px;
+        font-family: 'Times New Roman', Times, serif;
+        text-align: left; 
+        font-weight: normal;
+    }
+    .table th,
+    table td,
+    .table td,
+    .custom-table tr td,
+    .custom-table tr th,
+    tr th,
+    tr td,
+    tr,
+    .custom-table td,
+    td {
+        border: 2px solid #000; /* Darken the border color for table cells */
+        padding: 8px;
+        text-align: left;
+        font-weight: normal; /* Remove bold text for table cells */
+    }
+
+    /* Style table header for printing */
+    table thead th,
+    .table thead th,
+    .custom-table thead th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+        border-color: #000; /* Darken the border color for table header cells */
+    }
+
+    /* Style alternating rows for printing */
+    table tbody tr:nth-child(even),
+    .table tbody tr:nth-child(even),
+    .custom-table tbody tr:nth-child(even) {
+        background-color: #f7f7f7;
+        border-color: #000;
+    }
+    h5 {
+        font-size: 13pt;
+        text-align: center;
+        margin: -10px 0;
+        font-family: 'Times New Roman', Times, serif;
+        font-weight: bold;
+        color: black; /* Set the text color to inherit from the parent element */
+    }
+    body {
+        margin: 50px; /* Adjust the margin to your preference */
+    }
+    /* Hide the buttons with the class 'print-button' */
+    .navigation-strip, .menu-options , .menu-icon{
+        display: none;
+    }
+
+    /* Style the box headings as headings during printing */
+    .box-heading1 {
+        text-align: center;
+        margin: 0px 0;
+        font-size: 5pt;
+        font-family: 'Times New Roman', Times, serif;
+        font-weight: bold;
+    }
+    .box-heading {
+        text-align: center;
+        margin: -10px 0;
+        font-size: 5pt;
+        font-family: 'Times New Roman', Times, serif;
+        font-weight: bold;
+    }
+
+    /* Style the box headings as headings during printing */
+    .print-button {
+        display: none;
+    }
+        #course_table input[type="text"],
+    #course_table input[type="number"] {
+        text-align: left;
+        font-size: 9pt;
+        font-family: 'Times New Roman', Times, serif;
+        color: black;
+        width: 100%; /* Set the width to 100% to make them fill the cell */
+        padding: 0px; /* Adjust padding for better spacing in print */
+        border: black; /* Add a border to separate input fields */
+    }
+    #course_table form input[type="text"],
+    #course_table form input[type="number"] {
+        font-size: 10pt;
+        font-family: 'Times New Roman', Times, serif;
+        color: black;
+        width: 50%; /* Set the width to 100% to make them fill the cell */
+        padding: 2px; /* Adjust padding for better spacing in print */
+        border: black; /* Add a border to separate input fields */
+    }
+    .custom-table td:last-child,
+    .custom-table th:last-child {
+        display: none;
+    }
+    .table {
+        width: 10%; /* Adjust the width as needed */
+    }
+    .add-row-button {
+        display: none;
+    }
+    .add-row-buttonco {
+        display: none;
+    }
+    .delete-button{
+        display: none;
+    }
+    .delete-buttonco{
+        display: none;
+    }
+    .update-button {
+        display: none;
+    }
+    .update-buttonco {
+        display: none;
+    }
+    .save-buttonco {
+        display: none;
+    }
+    .save-buttoncd {
+        display: none;
+    }
+    .save-button {
+        display: none;
+    }
+  
+    /* Change print size */
+    body {
+        font-size: 9pt;
+        font-family: 'Times New Roman', Times, serif; 
+        color: black/* Adjust the font size for printing */
+    }
+
+    /* You can further customize the print styles here */
+}
+
+
 /* Style the Faculty (Names) cell */
 #cd_table .top {
     vertical-align: top; /* Align the cell content to the top */
@@ -26,12 +195,19 @@ body {
 }
 
 /* Style the box heading */
+.box-heading1 {
+    background-color: #1593e7; /* Background color */
+    color: #fff; /* Text color */
+    padding: 10px; /* Add padding for spacing */
+    text-align: center; /* Center the text */
+    margin: 100px 0 0; /* Add margin for spacing at the top, no margin at the bottom */
+}
 .box-heading {
     background-color: #1593e7; /* Background color */
     color: #fff; /* Text color */
     padding: 10px; /* Add padding for spacing */
     text-align: center; /* Center the text */
-    margin: 20px 0; /* Add margin for spacing between headings */
+    margin: 20px 0 0; /* Add margin for spacing between headings */
 }
 
 
@@ -134,6 +310,9 @@ h2 {
 .table-buttons {
     margin-bottom: 20px;
 }
+.custom-table-buttons {
+    margin-bottom: 20px;
+}
 
 /* Adjust margin for table rows */
 #syllabus-data tr:not(:last-child) {
@@ -176,6 +355,30 @@ h2 {
     background-color: #f7f7f7;
 }
 
+.custom-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 5 auto; /* Center the table horizontally and add margin from the sides */
+    margin-top: 20px; /* Add top margin */
+}
+
+.custom-table th,
+.custom-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+/* Style table header */
+.custom-table thead th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+/* Style alternating rows */
+.custom-table tbody tr:nth-child(even) {
+    background-color: #f7f7f7;
+}
 /* Style buttons */
 button {
     background-color: #003366; /* Dark blue */

@@ -5,8 +5,23 @@ window.onload = function () {
 $(document).ready(() => {
     fetchSyllabusData();
     fetchCourseData();
+    fetchusername();
+    fetchuserrole();
     fetchcdData();
     updateTotalLectures();
+
+    $('.page1-progress-button').click(() => {
+        // Toggle the tick mark (add or remove class 'completed')
+        $(this).toggleClass('completed');
+    });
+
+    $('.page2-progress-button').click(() => {
+        $(this).toggleClass('completed');
+    });
+
+    $('.page3-progress-button').click(() =>  {
+        $(this).toggleClass('incomplete');
+    });
 
     $('.add-row-button').click(() => {
         addEmptyRow();
@@ -30,6 +45,32 @@ $(document).ready(() => {
         updateTotalLectures();
     });
 
+
+    $('.generate-pdf-button').click(() => {
+        // Send a GET request to the /generate-pdf endpoint to generate the PDF
+        fetch('/generate-pdf')
+            .then(response => response.blob())
+            .then(blob => {
+                // Create a Blob URL for the PDF
+                const url = window.URL.createObjectURL(blob);
+    
+                // Create a link element to trigger the download
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'your-pdf-file.pdf'; // Set the desired file name
+    
+                // Trigger the click event on the link to initiate the download
+                document.body.appendChild(a);
+                a.click();
+    
+                // Clean up the Blob URL
+                window.URL.revokeObjectURL(url);
+            })
+            .catch(error => {
+                console.error('Error generating PDF:', error);
+            });
+    });
+    
     $(document).on('click', '.update-button', function () {
         const row = $(this).closest('tr');
         const cells = row.find('td');
@@ -38,6 +79,9 @@ $(document).ready(() => {
         row.find('.delete-button').hide();
         row.find('.save-buttonu').show();
     });
+   // $(document).on('click', '.generatepdf-button', function () {
+     //     generatePDF();
+    //});
 
     $(document).on('click', '.update-buttonco', function () {
         const row = $(this).closest('tr');
@@ -73,6 +117,15 @@ $(document).ready(() => {
 });
 
 // ... (rest of your functions, like updateRow, deleteRow, fetchSyllabusData, addEmptyRow, saveDataToServer)
+function calculateTotalMarks() {
+    var T1 = parseFloat(document.getElementById('T1').value);
+    var T2 = parseFloat(document.getElementById('T2').value);
+    var EndTerm = parseFloat(document.getElementById('EndTerm').value);
+    var TA = parseFloat(document.getElementById('TA').value);
+  
+    var totalMarks = T1 + T2 + EndTerm + TA;
+    document.getElementById('Total').textContent = totalMarks;
+  }
 
 
 function updateRow(moduleId, row) {
@@ -211,6 +264,9 @@ function fetchSyllabusData() {
     });
 }
 
+
+
+
 function fetchcdData() {
     $.ajax({
         url: '/api/cd', // Change this URL to match your Express route
@@ -236,8 +292,37 @@ function fetchcdData() {
         }
     });
 }
+function fetchusername(){
+    $.ajax({
+        url: '/api/get-username',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            const username = data.username;
+            console.log('Username:', username);
+            $('#username').text(username);
+        },
+        error: function (error) {
+            console.error('Error fetching username', error);
+        }
+    });
+}
 
-
+function fetchuserrole(){
+    $.ajax({
+        url: '/api/get-userrole',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            const userrole = data.userrole;
+            console.log('Userrole:', userrole);
+            $('#userrole').text(userrole);
+        },
+        error: function (error) {
+            console.error('Error fetching userrole', error);
+        }
+    });
+}
 function fetchCourseData() {
     $.ajax({
         url: '/api/courses', // Change this URL to match your Express route for courses

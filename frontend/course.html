@@ -1,19 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">\
-
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
-    
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-
     <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
         <!-- Navigation Strip -->
         <div class="navigation-strip">
@@ -31,13 +26,13 @@
             <!-- User Info Popup -->
             <div class="user-info-popup">
                 <!-- Add user information here -->
-                <h4>User Name</h4>
-                <p>User Role</p>
+                <h4 id="username">User Name</h4>
+                <h7 id="userrole">User Role</h7>
             </div>
         </div>
 
     <div class="container mt-5"></div>
-    <div class="box-heading">
+    <div class="box-heading1">
         <h5>Detailed Syllabus</h5>
     </div>
     <div class="box-heading">
@@ -107,7 +102,7 @@
         <button class="btn btn-info save-buttoncd">Save</button>
     </div>
     
-    <table class="table" id="co_table">
+    <table class="custom-table" id="co_table">
         <thead>
             <tr>
                 <th colspan="2" class="top">Course Outcomes</th> 
@@ -124,7 +119,7 @@
         <button class="btn btn-info add-row-buttonco">Add New Row</button>
         <button class="btn btn-info save-buttonco">Save</button>
     </div>
-    <table class="table" id="syllabus-table">
+    <table class="custom-table" id="syllabus-table">
         <thead>
             <tr>
                 <th>Module No.</th>
@@ -142,10 +137,80 @@
     <div class="table-buttons text-end mt-3">
         <button class="btn btn-info add-row-button">Add New Row</button>
         <button class="btn btn-info save-button">Save</button>
+        <button class="print-button" onclick="printPage()">Print</button>
     </div>
+    <table class="table" id="co_table">
+        <tr>
+          <th>Components</th>
+          <th>Maximum Marks</th>
+        </tr>
+        <tr>
+          <td>T1</td>
+          <td><div class="form-group">
+          <input type="number" id="T1" value="0" class="form-control"  oninput="calculateTotalMarks()"></td>
+          </div>
+        </tr>
+        <tr>
+          <td>T2</td>
+          <td><div class="form-group">
+          <input type="number" id="T2" value="0"  class="form-control" oninput="calculateTotalMarks()"></td>
+        </div>
+        </tr>
+        <tr>
+          <td>End Term</td>
+          <td><div class="form-group">
+            <input type="number" id="EndTerm" value="0"  class="form-control" oninput="calculateTotalMarks()"></div></td>
+        </tr>
+        <tr>
+          <td>TA (Attendance: 10, Assignment/Quiz/Mini-Project: 15)</td>
+          <td><div class="form-group">
+          <input type="number" id="TA" value="0"  class="form-control" oninput="calculateTotalMarks()">
+        </div></td>
+        </tr>
+        <tr>
+          <td>Total</td>
+          <td id="Total">&nbsp;&nbsp;&nbsp;0</td>
+        </tr>
+      </table>
+
+    
+
 </div>
+
+<!-- ... (your existing HTML code) ... -->
+
+<!-- Progress Buttons -->
+<div class="progress-buttons">
+    <!-- Button for Page 1 -->
+    <button class="btn btn-success page1-progress-button">
+        Page 1 <span class="tick-mark">&#10004;</span>
+    </button>
+
+    <!-- Button for Page 2 -->
+    <button class="btn btn-success page2-progress-button">
+        Page 2 <span class="tick-mark">&#10004;</span>
+    </button>
+
+    <!-- Button for Page 3 -->
+    <button class="btn btn-success page3-progress-button">
+        Page 3 <span class="tick-mark">&#10004;</span>
+    </button>
+    
+    <!-- Add more buttons for additional pages as needed -->
+</div>
+
+<!-- ... (your existing HTML code) ... -->
+
 <script src="dataval.js"></script>
     <script src="script.js"></script>
+    <script>
+    function printPage() {
+        // Call the window.print() method to initiate printing
+        window.print();
+    }</script>
+
+    
+    
    
 </body>
 </html>
