@@ -37,7 +37,9 @@ app.use(session({
 // User schema for educational_platform
 const eduUserSchema = new mongoose.Schema({
     username: String,
-    password: String
+    password: String,
+    Role: String,
+    User: String
 });
 const EduUser = educationalPlatformDb.model('User', eduUserSchema);
 
@@ -84,10 +86,11 @@ const cdSchema = new mongoose.Schema(
     { versionKey: false }
 );
 
-const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', courseOutcomeModuleSchema, 'course_outcome');
-const course = courseOutcomeDb.model('CourseOutcomeModule', courseSchema, 'course');
-const cd = courseOutcomeDb.model('CourseOutcomeModule', cdSchema, 'coursedetail');
 
+const st='bigdata2';
+const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', courseOutcomeModuleSchema, 'course_outcome');
+const course = courseOutcomeDb.model('CourseOutcomeModule', courseSchema, st);
+const cd = courseOutcomeDb.model('CourseOutcomeModule', cdSchema, 'coursedetail');
 
 app.use(express.static(path.join(__dirname, 'frontend')));
 
@@ -108,7 +111,7 @@ app.post('/admin-login', async (req, res) => {
         const user = await EduUser.findOne({ username: req.body.username });
         if (user && await bcrypt.compare(req.body.password, user.password)) {
             req.session.user = user;
-            res.sendFile(path.join(__dirname, 'frontend', 'course.html'));
+            res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
         } else {
             res.send('Invalid login credentials');
         }
@@ -169,18 +172,46 @@ app.post('/login', (req, res) => {
     }
 });
 
-
 app.post('/teacher-login', async (req, res) => {
     try {
         const user = await EduUser.findOne({ username: req.body.username });
         if (user && await bcrypt.compare(req.body.password, user.password)) {
             req.session.user = user;
-            res.sendFile(path.join(__dirname, 'frontend', ''));
+            const role = req.session.user.Role;
+
+            if (req.session.user.Role === "Teacher") {
+                res.sendFile(path.join(__dirname, 'frontend', 'attainment1.html'));
+            } else {
+                res.send("Invalid User");
+            }
         } else {
             res.send('Invalid login credentials');
         }
     } catch (error) {
+        console.error("Error:", error);
         res.status(500).send(error.message);
+    }
+});
+
+
+
+app.get('/api/get-username', async (req, res) => {
+    try {
+        const username = req.session.user.User;
+        res.json({ username });
+    } catch (error) {
+        console.error('Error fetching username:', error);
+        res.status(500).json({ error: 'Error fetching username' });
+    }
+});
+
+app.get('/api/get-userrole', async (req, res) => {
+    try {
+        const userrole = req.session.user.Role;
+        res.json({ userrole });
+    } catch (error) {
+        console.error('Error fetching userrole:', error);
+        res.status(500).json({ error: 'Error fetching userrole' });
     }
 });
 
