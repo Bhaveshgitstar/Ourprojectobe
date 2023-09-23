@@ -38,8 +38,9 @@ app.use(session({
 const eduUserSchema = new mongoose.Schema({
     username: String,
     password: String,
+    User: String,
     Role: String,
-    User: String
+    Course: String
 });
 const EduUser = educationalPlatformDb.model('User', eduUserSchema);
 
@@ -86,12 +87,26 @@ const cdSchema = new mongoose.Schema(
     { versionKey: false }
 );
 
+const attainmentT1Schema = new mongoose.Schema(
+    {
+        ModuleNo: String,
+        RollNo: String,
+        Name: String,
+        Batch: String,
+        Q1: Number,
+        Q2: Number,
+        Q3: Number,
+        Q4: Number,
+        Q5: Number,
+        Q6: Number,
+        Total: Number,
+        Attainment1: Number,
+        Attainment2:Number
 
-const st='bigdata2';
-const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', courseOutcomeModuleSchema, 'course_outcome');
-const course = courseOutcomeDb.model('CourseOutcomeModule', courseSchema, st);
-const cd = courseOutcomeDb.model('CourseOutcomeModule', cdSchema, 'coursedetail');
 
+    },
+    { versionKey: false }
+);
 app.use(express.static(path.join(__dirname, 'frontend')));
 
 app.use(session({
@@ -111,7 +126,11 @@ app.post('/admin-login', async (req, res) => {
         const user = await EduUser.findOne({ username: req.body.username });
         if (user && await bcrypt.compare(req.body.password, user.password)) {
             req.session.user = user;
-            res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+            if (req.session.user.Role === "Admin") {
+                res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+            } else {
+                res.send("Invalid User");
+            }
         } else {
             res.send('Invalid login credentials');
         }
@@ -125,13 +144,19 @@ app.post('/coordinator-login', async (req, res) => {
         const user = await EduUser.findOne({ username: req.body.username });
         if (user && await bcrypt.compare(req.body.password, user.password)) {
             req.session.user = user;
-            res.sendFile(path.join(__dirname, 'frontend', 'course.html'));
+            if (req.session.user.Role === "Coordinator") {
+                res.sendFile(path.join(__dirname, 'frontend', 'course.html'));
+            } else {
+                res.send("Invalid User");
+            }
+            
         } else {
             res.send('Invalid login credentials');
         }
     } catch (error) {
         res.status(500).send(error.message);
     }
+    
 });
 
 app.post('/forgot-password', (req, res) => {
@@ -216,9 +241,21 @@ app.get('/api/get-userrole', async (req, res) => {
 });
 
 
+app.get('/api/get-usercourse', async (req, res) => {
+    try {
+        const usercourse = req.session.user.Course;
+        res.json({ usercourse });
+    } catch (error) {
+        console.error('Error fetching userrole:', error);
+        res.status(500).json({ error: 'Error fetching usercourse' });
+    }
+});
+
 
 app.get('/api/cd', async (req, res) => {
     try {
+        const c= req.session.user.Course+"_cd";
+        const cd = courseOutcomeDb.model('CourseOutcomeModule', cdSchema, c);
         const modules = await cd.find();
         res.json(modules);
     } catch (error) {
@@ -229,7 +266,21 @@ app.get('/api/cd', async (req, res) => {
 
 app.get('/api/courses', async (req, res) => {
     try {
+        const c= req.session.user.Course;
+        const course = courseOutcomeDb.model('CourseOutcomeModule', courseSchema, c);
         const modules = await course.find();
+        res.json(modules);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'Error fetching data' });
+    }
+});
+
+app.get('/api/t1attainment', async (req, res) => {
+    try {
+        const c= req.session.user.Course+"_at";
+        const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
+        const modules = await CourseOutcomeModule.find();
         res.json(modules);
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -239,6 +290,8 @@ app.get('/api/courses', async (req, res) => {
 
 app.get('/api/modules', async (req, res) => {
     try {
+        const c= req.session.user.Course+"_co";
+        const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', courseOutcomeModuleSchema, c);
         const modules = await CourseOutcomeModule.find();
         res.json(modules);
     } catch (error) {
@@ -249,6 +302,22 @@ app.get('/api/modules', async (req, res) => {
 
 app.post('/api/modules', async (req, res) => {
     // const { ModuleNo, ModuleTitle, Topics, NoOfLectures } = req.body;
+    const c= req.session.user.Course+"_co";
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', courseOutcomeModuleSchema, c);
+    const newModule = new CourseOutcomeModule(req.body);
+     try {
+         await newModule.save();
+         res.json(newModule);
+     } catch (error) {
+         console.error('Error saving data:', error);
+         res.status(500).json({ error: 'Error saving data' });
+     }
+ });
+
+ app.post('/api/t1attainment', async (req, res) => {
+    // const { ModuleNo, ModuleTitle, Topics, NoOfLectures } = req.body;
+    const c= req.session.user.Course+"_at";
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
     const newModule = new CourseOutcomeModule(req.body);
      try {
          await newModule.save();
@@ -261,6 +330,8 @@ app.post('/api/modules', async (req, res) => {
 
  app.post('/api/courses', async (req, res) => {
     // const { ModuleNo, ModuleTitle, Topics, NoOfLectures } = req.body;
+    const c= req.session.user.Course;
+    const course = courseOutcomeDb.model('CourseOutcomeModule', courseSchema, c);
     const newModule = new course(req.body);
      try {
          await newModule.save();
@@ -274,6 +345,22 @@ app.post('/api/modules', async (req, res) => {
 
 
 app.put('/api/module/:id', async (req, res) => {
+    const c= req.session.user.Course+"_co";
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', courseOutcomeModuleSchema, c);
+    const moduleId = req.params.id;
+    const updatedModule = req.body;
+    
+    try {
+        await CourseOutcomeModule.findByIdAndUpdate(moduleId, updatedModule);
+        res.json(updatedModule);
+    } catch (error) {
+        console.error('Error updating data:', error);
+        res.status(500).json({ error: 'Error updating data' });
+    }
+});
+app.put('/api/t1attainment/:id', async (req, res) => {
+    const c= req.session.user.Course+"_at";
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, c);
     const moduleId = req.params.id;
     const updatedModule = req.body;
     
@@ -287,6 +374,8 @@ app.put('/api/module/:id', async (req, res) => {
 });
 
 app.put('/api/course/:id', async (req, res) => {
+    const c= req.session.user.Course;
+    const course = courseOutcomeDb.model('CourseOutcomeModule', courseSchema, c);
     const moduleId = req.params.id;
     const updatedModule = req.body;
     
@@ -301,6 +390,8 @@ app.put('/api/course/:id', async (req, res) => {
 
 
 app.delete('/api/modules/:id', async (req, res) => {
+    const c= req.session.user.Course+"_co";
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', courseOutcomeModuleSchema, c);
     const moduleId = req.params.id;
     
     try {
@@ -313,6 +404,22 @@ app.delete('/api/modules/:id', async (req, res) => {
 });
 
 app.delete('/api/courses/:id', async (req, res) => {
+    const c= req.session.user.Course;
+    const course = courseOutcomeDb.model('CourseOutcomeModule', courseSchema, c);
+    const moduleId = req.params.id;
+    
+    try {
+        await course.findByIdAndDelete(moduleId);
+        res.json({ message: 'Data deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting data:', error);
+        res.status(500).json({ error: 'Error deleting data' });
+    }
+});
+
+app.delete('/api/t1attainment/:id', async (req, res) => {
+    const c= req.session.user.Course+"_at";
+    const course = courseOutcomeDb.model('CourseOutcomeModule', courseSchema, c);
     const moduleId = req.params.id;
     
     try {
