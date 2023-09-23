@@ -17,27 +17,35 @@
             <!-- Menu Options -->
             <div class="menu-options" id="menu-options">
                 <!-- Add your menu options here -->
-                <div class="menu-option"><a>Option 1</a></div>
+                <div class="menu-option" id="menu-option1" ><a>Option 1</a></div>
+                    <div class="menu-options1" id="menu-options1">
+                    <div class="menu-option1"><a>Option 1</a></div>
+                    <div class="menu-option1"><a>Option 2</a></div>
+                    <div class="menu-option1"><a>Option 3</a></div>
+                </div>
                 <div class="menu-option"><a>Option 2</a></div>
                 <div class="menu-option"><a>Option 3</a></div>
                 <div class="menu-option"><a>Option 4</a></div>
             </div>
+            <img class="logo" src="LOGO.jpg" alt="Flowers in Chania">
             <span class="user-info-button">User Info</span>
             <!-- User Info Popup -->
             <div class="user-info-popup">
                 <!-- Add user information here -->
                 <h4 id="username">User Name</h4>
-                <h7 id="userrole">User Role</h7>
+                <div><h7 id="userrole">User Role</h7></div>
+                <div><h8 id="course_code">Course Name</h8></div>
+
             </div>
         </div>
 
-    <div class="container mt-5"></div>
+    </div>  <div class="container mt-5"></div>
     <div class="box-heading1">
         <h5>Detailed Syllabus</h5>
     </div>
     <div class="box-heading">
         <h5>Lecture Wise Breakup</h5>
-    </div>
+    </div></div>
     <table class="table" id="course_table">
         <thead>
             <tr>
@@ -137,7 +145,6 @@
     <div class="table-buttons text-end mt-3">
         <button class="btn btn-info add-row-button">Add New Row</button>
         <button class="btn btn-info save-button">Save</button>
-        <button class="print-button" onclick="printPage()">Print</button>
     </div>
     <table class="table" id="co_table">
         <tr>
@@ -179,22 +186,141 @@
 
 <!-- ... (your existing HTML code) ... -->
 
-<!-- Progress Buttons -->
-<div class="progress-buttons">
+<!-- Progress Buttons 
+<div class="progress-buttons">-->
     <!-- Button for Page 1 -->
-    <button class="btn btn-success page1-progress-button">
+   <!-- <button class="btn btn-success page1-progress-button">
         Page 1 <span class="tick-mark">&#10004;</span>
-    </button>
+    </button>-->
 
-    <!-- Button for Page 2 -->
+    <!-- Button for Page 2 
     <button class="btn btn-success page2-progress-button">
         Page 2 <span class="tick-mark">&#10004;</span>
-    </button>
+    </button>-->
 
-    <!-- Button for Page 3 -->
+    <!-- Button for Page 3 
     <button class="btn btn-success page3-progress-button">
         Page 3 <span class="tick-mark">&#10004;</span>
-    </button>
+    </button>  -->
+
+    <div class="table-buttons text-end mt-3">
+
+    <button class="print-button" onclick="printPage()">Print</button></div>
+    
+    <div class="footer">
+        <p>Copyright © 2023 Your Organization. All rights reserved.</p>
+        <p>Address: 123 Main Street, City, Country</p>
+        <p>Email: contact@example.com</p>
+    </div>
+    <div class="footer-container">
+        <section class="footer-subscription">
+            <p class="footer-subscription-heading">
+                Join the Health newsletter to receive our best healthcare facility
+            </p>
+            <p class="footer-subscription-text">
+                You can unsubscribe at any time.
+            </p>
+            <div class="input-areas">
+                <form id="subscription-form">
+                    <input
+                        class="footer-input"
+                        name="email"
+                        type="email"
+                        placeholder="Your Email"
+                    />
+                    <button type="submit" class="btn btn--outline">Subscribe</button>
+                </form>
+            </div>
+        </section>
+        <div class="footer-links">
+            <div class="footer-link-wrapper">
+                <div class="footer-link-items">
+                    <h2>About Us</h2>
+                    <a href="/sign-up">How it works</a>
+                    <a href="/">Testimonials</a>
+                    <a href="/">Careers</a>
+                    <a href="/">Investors</a>
+                    <a href="/">Terms of Service</a>
+                </div>
+                <div class="footer-link-items">
+                    <h2>Contact Us</h2>
+                    <a href="/">Contact</a>
+                    <a href="/">Support</a>
+                    <a href="/">Destinations</a>
+                    <a href="/">Sponsorships</a>
+                </div>
+            </div>
+            <div class="footer-link-wrapper">
+                <div class="footer-link-items">
+                    <h2>Videos</h2>
+                    <a href="/">Submit Video</a>
+                    <a href="/">Ambassadors</a>
+                    <a href="/">Agency</a>
+                    <a href="/">Influencer</a>
+                </div>
+                <div class="footer-link-items">
+                    <h2>Social Media</h2>
+                    <a href="/">Instagram</a>
+                    <a href="/">Facebook</a>
+                    <a href="/">Youtube</a>
+                    <a href="/">Twitter</a>
+                </div>
+            </div>
+        </div>
+        <section class="social-media">
+            <div class="social-media-wrap">
+                <div class="footer-logo">
+                    <a href="/" class="social-logo">
+                        Health Is Everything
+                        <i class="fab fa-typo3"></i>
+                    </a>
+                </div>
+                <small class="website-rights">HPI(Health Portal India) © 2023</small>
+                <div class="social-icons">
+                    <a
+                        class="social-icon-link facebook"
+                        href="/"
+                        target="_blank"
+                        aria-label="Facebook"
+                    >
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a
+                        class="social-icon-link instagram"
+                        href="/"
+                        target="_blank"
+                        aria-label="Instagram"
+                    >
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a
+                        class="social-icon-link youtube"
+                        href="/"
+                        target="_blank"
+                        aria-label="Youtube"
+                    >
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a
+                        class="social-icon-link twitter"
+                        href="/"
+                        target="_blank"
+                        aria-label="Twitter"
+                    >
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a
+                        class="social-icon-link twitter"
+                        href="/"
+                        target="_blank"
+                        aria-label="LinkedIn"
+                    >
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
     
     <!-- Add more buttons for additional pages as needed -->
 </div>

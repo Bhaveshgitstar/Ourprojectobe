@@ -6,22 +6,34 @@ $(document).ready(() => {
     fetchSyllabusData();
     fetchCourseData();
     fetchusername();
+    fetchcourse();
     fetchuserrole();
     fetchcdData();
     updateTotalLectures();
 
-    $('.page1-progress-button').click(() => {
-        // Toggle the tick mark (add or remove class 'completed')
-        $(this).toggleClass('completed');
+
+    const menuIcon = document.getElementById("menu-icon");
+    const menuopt = document.getElementById("menu-option1");
+    const menuOptions1 = document.getElementById("menu-options1");
+
+    const menuOptions = document.getElementById("menu-options");
+
+    menuIcon.addEventListener("click", () => {
+        if (menuOptions.style.display === "block") {
+            menuOptions.style.display = "none";
+        } else {
+            menuOptions.style.display = "block";
+        }
+    });
+    
+    menuopt.addEventListener("click", () => {
+        if (menuOptions1.style.display === "block") {
+            menuOptions1.style.display = "none";
+        } else {
+            menuOptions1.style.display = "block";
+        }
     });
 
-    $('.page2-progress-button').click(() => {
-        $(this).toggleClass('completed');
-    });
-
-    $('.page3-progress-button').click(() =>  {
-        $(this).toggleClass('incomplete');
-    });
 
     $('.add-row-button').click(() => {
         addEmptyRow();
@@ -320,6 +332,22 @@ function fetchuserrole(){
         },
         error: function (error) {
             console.error('Error fetching userrole', error);
+        }
+    });
+}
+
+function fetchcourse(){
+    $.ajax({
+        url: '/api/get-usercourse',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            const usercourse = data.usercourse;
+            console.log('Userrole:', usercourse);
+            $('#course_code').text(usercourse);
+        },
+        error: function (error) {
+            console.error('Error fetching usercourse', error);
         }
     });
 }

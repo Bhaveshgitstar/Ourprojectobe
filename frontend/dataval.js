@@ -11,7 +11,6 @@
         const lastRow = rows[rows.length - 1]; // Get the last added row
     
         const cells = lastRow.querySelectorAll("td");
-        const moduleNo = cells[0].textContent.trim();
         const title = cells[1].textContent.trim();
         const topics = cells[2].textContent.trim();
         const lectures = cells[3].textContent.trim();
