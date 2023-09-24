@@ -93,15 +93,15 @@ const attainmentT1Schema = new mongoose.Schema(
         RollNo: String,
         Name: String,
         Batch: String,
-        Q1: Number,
-        Q2: Number,
-        Q3: Number,
-        Q4: Number,
-        Q5: Number,
-        Q6: Number,
+        Q1: String,
+        Q2: String,
+        Q3: String,
+        Q4: String,
+        Q5: String,
+        Q6: String,
         Total: Number,
         Attainment1: Number,
-        Attainment2:Number
+        Attainment2: Number
 
 
     },
@@ -120,6 +120,32 @@ app.get('/', (req, res) => {
 });
 
 
+app.post('/api/updatedb', async(req, res) => {
+    const { columnNames } = req.body;
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, 'attainment1');
+
+    // Iterate through the columnNames array and update each column separately
+    const updatePromises = columnNames.map(columnName => {
+        // Create an update object for each column name
+        const updateObject = {};
+        updateObject[columnName] = "0";
+
+        // Use updateMany to update all documents in the collection for this column
+        return CourseOutcomeModule.collection.updateMany({}, { $set: updateObject });
+    });
+
+    // Use Promise.all to wait for all updates to complete
+    Promise.all(updatePromises)
+        .then(results => {
+            // Handle the results if needed
+            res.send("Update successful");
+        })
+        .catch(error => {
+            // Handle the error if something goes wrong
+            console.error(error);
+            res.status(500).send("Update failed");
+        });
+});
 
 app.post('/admin-login', async (req, res) => {
     try {
@@ -127,7 +153,7 @@ app.post('/admin-login', async (req, res) => {
         if (user && await bcrypt.compare(req.body.password, user.password)) {
             req.session.user = user;
             if (req.session.user.Role === "Admin") {
-                res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+                res.sendFile(path.join(__dirname, 'frontend', 'admincontrol.html'));
             } else {
                 res.send("Invalid User");
             }
@@ -240,6 +266,32 @@ app.get('/api/get-userrole', async (req, res) => {
     }
 });
 
+app.post('/api/updatedb', async(req, res) => {
+    const { columnNames } = req.body;
+    const CourseOutcomeModule = courseOutcomeDb.model('CourseOutcomeModule', attainmentT1Schema, 'attainment1');
+
+    // Iterate through the columnNames array and update each column separately
+    const updatePromises = columnNames.map(columnName => {
+        // Create an update object for each column name
+        const updateObject = {};
+        updateObject[columnName] = "0";
+
+        // Use updateMany to update all documents in the collection for this column
+        return CourseOutcomeModule.collection.updateMany({}, { $set: updateObject });
+    });
+
+    // Use Promise.all to wait for all updates to complete
+    Promise.all(updatePromises)
+        .then(results => {
+            // Handle the results if needed
+            res.send("Update successful");
+        })
+        .catch(error => {
+            // Handle the error if something goes wrong
+            console.error(error);
+            res.status(500).send("Update failed");
+        });
+});
 
 app.get('/api/get-usercourse', async (req, res) => {
     try {
